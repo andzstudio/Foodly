@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodly Galati - Eat better, your way</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 'accent': '#570014', 'accent-light': '#8a0020', 'off-white': '#f9f9f9', 'dark': '#0a0a0a' },
+                    fontFamily: { 'sans': ['"Inter"', 'sans-serif'], 'serif': ['"Playfair Display"', 'serif'] }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="antialiased app-body">
+
+    <div id="error-overlay"></div>
+
+    <div id="progress-bar"></div>
+
+    <div id="loader">
+        <h1 class="loader-title">Foodly</h1>
+        <p class="loader-subtitle">Eat better, your way.</p>
+    </div>
+
+    <div id="toast">Notification</div>
+
+    <div id="content-wrapper">
+        
+        <div class="hero-section">
+            <div class="corner-glow glow-left"></div>
+            <div class="corner-glow glow-right"></div>
+
+            <div class="brand-logo-container">
+                <h1 class="brand-title">Foodly<span class="text-accent">.</span></h1>
+            </div>
+
+            <div class="collab-btn-container">
+                <button onclick="document.getElementById('suggest-place-section').scrollIntoView({behavior: 'smooth'})" class="collab-btn">Collaboration</button>
+            </div>
+
+            <div class="floating-icon icon-size-lg pos-l-1 float-delay-1"><i class="fas fa-burger"></i></div>
+            <div class="floating-icon icon-size-md pos-l-2 float-delay-2"><i class="fas fa-utensils"></i></div>
+            <div class="floating-icon icon-size-xl pos-l-3 float-delay-3"><i class="fas fa-pizza-slice"></i></div>
+            <div class="floating-icon icon-size-lg pos-r-1 float-delay-2"><i class="fas fa-wine-glass"></i></div>
+            <div class="floating-icon icon-size-md pos-r-2 float-delay-3"><i class="fas fa-fish"></i></div>
+            <div class="floating-icon icon-size-xl pos-r-3 float-delay-1"><i class="fas fa-cheese"></i></div>
+
+            <div class="hero-content">
+                <h1 class="hero-headline">
+                    <span class="hero-title-main">Eat better,</span>
+                    <span class="hero-title-sub">choose easier</span>
+                </h1>
+            </div>
+
+            <section id="featured-container">
+                <div class="featured-header">
+                    <h3 class="text-3xl md:text-4xl font-black text-gray-900 tracking-tight" style="font-family: 'Inter', sans-serif;">
+                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#570014] to-black">Loved</span> by Locals
+                    </h3>
+                    <p class="featured-subtitle">The most popular spot, <span class="underline decoration-[#570014]/40 decoration-2 underline-offset-4">right here</span>.</p>
+                </div>
+                <div class="featured-body">
+                    <div class="featured-grid">
+                        <div class="featured-img-col group">
+                            <img src="img/places/stage-place.png" class="featured-img" alt="Stage Restaurant">
+                            <div class="featured-badge-container">
+                                <div class="flex items-center gap-2 mb-1"><i class="fas fa-star text-yellow-500"></i><span class="font-bold text-xl">4.9</span></div>
+                                <p class="text-xs text-gray-500">From 1.2k reviews</p>
+                            </div>
+                        </div>
+                        <div class="featured-content-col">
+                            <div class="tag-row">
+                                <span class="tag-accent">Nice Dining</span>
+                                <span class="tag-price">$$$</span>
+                            </div>
+                            <h2 class="restaurant-name-lg">Stage Nice Dining</h2>
+                            <p class="restaurant-desc-lg">
+                                <i class="fas fa-map-marker-alt text-accent mr-2"></i>Str. Domnească, Galați (0.8 km)<br><br>
+                                A refined culinary experience in the heart of the city.
+                            </p>
+                            <div class="social-proof-box">
+                                <div class="insta-avatar">
+                                    <div class="insta-inner">
+                                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=150&q=80" class="insta-img">
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold">@stage_galati</p>
+                                    <p class="text-xs text-gray-600 italic">"Thank you to our wonderful guests!"</p>
+                                </div>
+                            </div>
+                            <div class="action-row">
+                                <button onclick="openBooking('Stage Nice Dining')" class="btn-primary">Book Table</button>
+                                <button onclick="showToast('Menu opened...')" class="btn-icon"><i class="fas fa-book-open"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <main id="main-content">
+            <div class="content-inner">
+                
+                <div id="promo-section">
+                    <h2 class="promo-title">
+                        All the good restaurants,<br>
+                        <span class="promo-italic">gathered in one place.</span>
+                    </h2>
+                    <p class="promo-scroll-text">Scroll to Explore</p>
+                </div>
+
+                <div id="filters-container">
+                    <div class="filters-wrapper">
+                        <div class="collection-header">
+                            <h2 class="collection-title">
+                                All the good restaurants,<br>
+                                <span class="promo-italic">gathered in one place.</span>
+                            </h2>
+                            <div class="collection-separator">
+                                <span class="line-sep"></span>
+                                <p class="text-sep">Explore Collection</p>
+                                <span class="line-sep"></span>
+                            </div>
+                        </div>
+            
+                        <div class="sticky-filter-bar">
+                            <div class="filter-bar-layout">
+                                
+                                <div class="search-box-wrapper">
+                                    <div class="search-input-container">
+                                        <i class="fas fa-search search-icon"></i>
+                                        <input type="text" id="search-input" placeholder="Search by taste..." class="search-input">
+                                    </div>
+                                </div>
+            
+                                <div class="controls-right">
+                                    
+                                    <div class="sort-container-custom" id="sort-container">
+                                        <button class="sort-trigger-btn" id="sort-btn">
+                                            <div class="flex items-center gap-2">
+                                                <i class="fas fa-sort text-xs"></i>
+                                                <span id="sort-label">Recommended</span>
+                                            </div>
+                                            <i class="fas fa-chevron-down text-[8px] transition-transform duration-300" id="sort-icon"></i>
+                                        </button>
+                                        
+                                        <div id="sort-menu" class="sort-dropdown-menu">
+                                            <div class="p-2 flex flex-col gap-1">
+                                                <button class="sort-option-item sort-option active" data-val="recommended"><span>Recommended</span><i class="fas fa-check text-accent opacity-100 check-icon"></i></button>
+                                                <button class="sort-option-item sort-option" data-val="az"><span>Name (A-Z)</span><i class="fas fa-check text-accent opacity-0 check-icon"></i></button>
+                                                <button class="sort-option-item sort-option" data-val="za"><span>Name (Z-A)</span><i class="fas fa-check text-accent opacity-0 check-icon"></i></button>
+                                                <button class="sort-option-item sort-option" data-val="price_low"><span>Price (Low-High)</span><i class="fas fa-check text-accent opacity-0 check-icon"></i></button>
+                                                <button class="sort-option-item sort-option" data-val="price_high"><span>Price (High-Low)</span><i class="fas fa-check text-accent opacity-0 check-icon"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+            
+                                    <div class="vertical-divider"></div>
+            
+                                    <div class="filter-scroll-area no-scrollbar">
+                                        <div class="cuisine-group">
+                                            <button class="cuisine-btn bg-black text-white shadow-lg" data-val="all">All</button>
+                                            <button class="cuisine-btn" data-val="asian">Asian</button>
+                                            <button class="cuisine-btn" data-val="italian">Italian</button>
+                                            <button class="cuisine-btn hidden sm:block" data-val="traditional">Local</button>
+                                            <button class="cuisine-btn hidden sm:block" data-val="pub">Pubs</button>
+                                        </div>
+            
+                                        <div class="action-btn-group">
+                                            <button id="filter-kids" class="btn-icon-filter btn-family" onclick="toggleKidsFilter()" title="Family Friendly">
+                                                <i class="fas fa-baby text-sm"></i> <span class="hidden md:inline text-[10px] font-bold uppercase ml-2">Family</span>
+                                            </button>
+                                            <button class="parking-btn btn-icon-filter btn-parking" data-val="green" title="Private Parking">
+                                                <i class="fas fa-parking text-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="restaurant-stack" class="stack-area">
+                </div>
+
+<section id="locals-favorites-section" class="relative bg-off-white min-h-screen border-t border-gray-200">
+    
+    <div class="flex flex-col lg:flex-row max-w-[1600px] mx-auto">
+
+        <div class="lg:w-5/12 p-6 md:p-12 lg:h-screen lg:sticky lg:top-0 flex flex-col justify-center z-20 bg-off-white/80 backdrop-blur-sm">
+            
+            <div class="mb-12">
+                <h2 class="text-5xl md:text-7xl lg:text-8xl font-sans font-black tracking-tighter text-gray-900 leading-[0.9] mb-10">
+                    Where Locals <br> Found Their <br>
+                    <span class="font-serif italic font-light text-accent">Favorites.</span>
+                </h2>
+
+                <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+                    <div class="flex -space-x-4">
+                         <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" class="w-14 h-14 rounded-full border-[3px] border-off-white object-cover shadow-sm">
+                         <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80" class="w-14 h-14 rounded-full border-[3px] border-off-white object-cover shadow-sm">
+                         <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=100&q=80" class="w-14 h-14 rounded-full border-[3px] border-off-white object-cover shadow-sm">
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-3xl font-black text-gray-900 leading-none">4.95/5.00</span>
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">
+                            rating based on <span class="text-black border-b border-gray-300">3.7k+ happy locals</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:w-7/12 p-6 md:p-12 lg:p-24 border-l border-gray-200 bg-white relative z-10">
+            
+            <div id="reviews-stream" class="space-y-32 py-12 lg:pt-32 lg:pb-12">
+            </div>
+
+            <div id="stream-end-cta" class="py-24 flex flex-col items-center opacity-0 translate-y-10 text-center">
+                <div class="w-px h-24 bg-gray-200 mb-8 mx-auto"></div> 
+                
+                <h2 class="text-4xl md:text-5xl font-sans font-black text-gray-900 mb-8 leading-tight">
+                    Your review could be <br>
+                    <span class="font-serif italic text-accent">the next one here.</span>
+                </h2>
+                
+                <button id="reveal-review-btn" class="group relative px-12 py-6 bg-black text-white rounded-full overflow-hidden shadow-2xl transition-transform hover:scale-105 mb-8">
+                    <div class="absolute inset-0 w-full h-full bg-accent translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.77,0,0.175,1)]"></div>
+                    <span class="relative z-10 font-bold uppercase tracking-widest text-sm flex items-center gap-3">
+                        Write a Review <i class="fas fa-pen-nib group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform"></i>
+                    </span>
+                </button>
+                
+                <div id="review-form-wrapper" class="w-full h-0 opacity-0 overflow-hidden">
+                    <form id="new-review-form" class="w-full max-w-xl mx-auto bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 shadow-xl shadow-gray-100/50 text-left">
+                        
+                        <div class="flex gap-2 p-1 bg-white rounded-2xl border border-gray-200 mb-8">
+                            <button type="button" class="flex-1 py-3 rounded-xl bg-black text-white font-bold text-[10px] uppercase tracking-widest shadow-md transition-all">Anonymous</button>
+                            <button type="button" class="flex-1 py-3 rounded-xl text-gray-500 font-bold text-[10px] uppercase tracking-widest hover:bg-gray-50 transition-all flex items-center justify-center gap-2">
+                                <i class="fab fa-google"></i> Google
+                            </button>
+                        </div>
+
+                        <div class="mb-8">
+                            <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4 block ml-2">Select Place</label>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-48 overflow-y-auto no-scrollbar pr-0 w-[calc(100%+10px)] -ml-1">
+                                <label class="cursor-pointer group flex items-center justify-between p-3 bg-white rounded-xl border border-gray-100 hover:border-accent/30 transition-all">
+                                    <span class="text-xs font-bold text-gray-700">Stage Nice Dining</span>
+                                    <div class="relative"><input type="radio" name="review_place" class="hidden peer" checked><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                </label>
+                                <label class="cursor-pointer group flex items-center justify-between p-3 bg-white rounded-xl border border-gray-100 hover:border-accent/30 transition-all">
+                                    <span class="text-xs font-bold text-gray-700">Sushi Master</span>
+                                    <div class="relative"><input type="radio" name="review_place" class="hidden peer"><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                </label>
+                                <label class="cursor-pointer group flex items-center justify-between p-3 bg-white rounded-xl border border-gray-100 hover:border-accent/30 transition-all">
+                                    <span class="text-xs font-bold text-gray-700">Nihao</span>
+                                    <div class="relative"><input type="radio" name="review_place" class="hidden peer"><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                </label>
+                                <label class="cursor-pointer group flex items-center justify-between p-3 bg-white rounded-xl border border-gray-100 hover:border-accent/30 transition-all">
+                                    <span class="text-xs font-bold text-gray-700">Teatris</span>
+                                    <div class="relative"><input type="radio" name="review_place" class="hidden peer"><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                </label>
+                                <label class="cursor-pointer group flex items-center justify-between p-3 bg-white rounded-xl border border-gray-100 hover:border-accent/30 transition-all">
+                                    <span class="text-xs font-bold text-gray-700">Union Jack</span>
+                                    <div class="relative"><input type="radio" name="review_place" class="hidden peer"><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                </label>
+                                <label class="cursor-pointer group flex items-center justify-between p-3 bg-white rounded-xl border border-gray-100 hover:border-accent/30 transition-all">
+                                    <span class="text-xs font-bold text-gray-700">Acquarello</span>
+                                    <div class="relative"><input type="radio" name="review_place" class="hidden peer"><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                </label>
+                                 <label class="cursor-pointer group flex items-center justify-between p-3 bg-white rounded-xl border border-gray-100 hover:border-accent/30 transition-all">
+                                    <span class="text-xs font-bold text-gray-700">Casa Românească</span>
+                                    <div class="relative"><input type="radio" name="review_place" class="hidden peer"><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 mb-8">
+                            <div>
+                                 <input type="text" placeholder="Your Name" class="w-full bg-white border border-gray-100 rounded-xl p-4 font-bold text-gray-900 text-sm focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all placeholder-gray-300" required>
+                            </div>
+                            <div>
+                                 <textarea placeholder="How was the food?" rows="3" class="w-full bg-white border border-gray-100 rounded-xl p-4 font-bold text-gray-900 text-sm focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all placeholder-gray-300 resize-none" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
+                            <div class="flex flex-col items-center sm:items-start">
+                                 <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Rating</label>
+                                 
+                                 <div class="radio">
+                                    <input id="rating-5" type="radio" name="rating" value="5" />
+                                    <label for="rating-5" title="5 stars">
+                                        <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                                    </label>
+
+                                    <input id="rating-4" type="radio" name="rating" value="4" />
+                                    <label for="rating-4" title="4 stars">
+                                        <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                                    </label>
+
+                                    <input id="rating-3" type="radio" name="rating" value="3" />
+                                    <label for="rating-3" title="3 stars">
+                                        <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                                    </label>
+
+                                    <input id="rating-2" type="radio" name="rating" value="2" />
+                                    <label for="rating-2" title="2 stars">
+                                        <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                                    </label>
+
+                                    <input id="rating-1" type="radio" name="rating" value="1" />
+                                    <label for="rating-1" title="1 star">
+                                        <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                                    </label>
+                                 </div>
+                            </div>
+
+                            <button type="submit" class="w-full sm:w-auto px-8 py-4 bg-black text-white rounded-2xl font-bold uppercase text-xs tracking-widest hover:bg-accent hover:scale-105 transition-all shadow-lg flex items-center justify-center gap-2">
+                                Send Review <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="review-success-modal" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-all duration-500">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="toggleReviewModal(false)"></div>
+        <div class="bg-white rounded-[3rem] p-10 md:p-14 max-w-md w-[90%] relative z-10 text-center transform scale-90 transition-all duration-500 translate-y-10" id="review-modal-card">
+            
+            <div class="w-24 h-24 bg-gradient-to-tr from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-xl shadow-green-500/30 animate-bounce">
+                <i class="fas fa-check text-white text-4xl"></i>
+            </div>
+            
+            <h3 class="text-3xl md:text-4xl font-sans font-black text-gray-900 mb-3 leading-tight">
+                Be a part of <br>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-accent to-black">Foodly</span>
+            </h3>
+            
+            <p class="text-gray-500 font-medium mb-10 text-sm leading-relaxed">
+                Thank you for contributing to the community! Your review has been submitted and is pending approval.
+            </p>
+            
+            <button onclick="toggleReviewModal(false)" class="w-full py-4 bg-black text-white rounded-2xl font-bold uppercase text-xs tracking-widest hover:bg-accent transition-colors shadow-lg">
+                Continue Exploring
+            </button>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const initReviews = () => {
+                const revealBtn = document.getElementById('reveal-review-btn');
+                const formWrapper = document.getElementById('review-form-wrapper');
+
+                if(revealBtn && formWrapper) {
+                    revealBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        if(typeof gsap !== 'undefined') {
+                            gsap.to(revealBtn, { 
+                                height: 0, opacity: 0, padding: 0, margin: 0, overflow: 'hidden', duration: 0.5, ease: "power2.in",
+                                onComplete: () => revealBtn.style.display = 'none'
+                            });
+                            gsap.to(formWrapper, { height: "auto", opacity: 1, duration: 1, ease: "power3.inOut", delay: 0.1 });
+                        } else {
+                            revealBtn.style.display = 'none';
+                            formWrapper.style.height = 'auto';
+                            formWrapper.style.opacity = '1';
+                        }
+                    });
+                }
+
+                const form = document.getElementById('new-review-form');
+                if(form) {
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        const rating = form.querySelector('input[name="rating"]:checked');
+                        
+                        if(!rating) {
+                            if(typeof showToast !== 'undefined') showToast("Please select a star rating!");
+                            else alert("Please select a star rating!");
+                            return;
+                        }
+                        
+                        if(typeof toggleReviewModal !== 'undefined') toggleReviewModal(true);
+                    });
+                }
+            };
+
+            if(typeof window.toggleReviewModal === 'undefined') {
+                window.toggleReviewModal = function(show) {
+                    const modal = document.getElementById('review-success-modal');
+                    const card = document.getElementById('review-modal-card');
+                    if(modal && card) {
+                        if(show) {
+                            modal.classList.remove('opacity-0', 'pointer-events-none');
+                            modal.classList.add('opacity-100', 'pointer-events-auto');
+                            card.classList.remove('scale-90', 'translate-y-10');
+                            card.classList.add('scale-100', 'translate-y-0');
+                        } else {
+                            modal.classList.remove('opacity-100', 'pointer-events-auto');
+                            modal.classList.add('opacity-0', 'pointer-events-none');
+                            card.classList.remove('scale-100', 'translate-y-0');
+                            card.classList.add('scale-90', 'translate-y-10');
+                        }
+                    }
+                }
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initReviews);
+            } else {
+                initReviews();
+            }
+        })();
+    </script>
+
+</section>
+
+                <section id="suggest-place-section" class="py-24 px-6 md:px-12 bg-white mt-12 rounded-[2.5rem] max-w-[1400px] mx-auto border border-gray-100 shadow-sm relative z-30">
+                    <div class="max-w-[1000px] mx-auto">
+                        <div class="text-center mb-16">
+                            <h2 class="text-4xl md:text-5xl font-sans font-black mb-4 tracking-tighter text-gray-900">
+                                Know a <span class="bg-clip-text text-transparent bg-gradient-to-r from-black to-accent">great place</span> we missed?
+                            </h2>
+                            <p class="text-gray-500 text-lg max-w-2xl mx-auto">Let us know which restaurant we should add to Foodly. If it’s good, we’ll review it and include it.</p>
+                        </div>
+
+                        <div class="bg-off-white rounded-[2.5rem] p-8 md:p-12 border border-gray-200">
+                            <form class="space-y-8" id="suggestion-form">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold uppercase tracking-widest text-gray-400">Restaurant Name</label>
+                                        <input type="text" name="restaurantName" placeholder="e.g. Blue Acqua" class="w-full bg-white border-none rounded-xl p-4 font-bold text-gray-900 focus:ring-2 focus:ring-accent outline-none shadow-sm transition-all" required>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold uppercase tracking-widest text-gray-400">Opening Hours</label>
+                                        <input type="text" name="openingHours" placeholder="e.g. 10:00 - 22:00" class="w-full bg-white border-none rounded-xl p-4 font-bold text-gray-900 focus:ring-2 focus:ring-accent outline-none shadow-sm transition-all" required>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold uppercase tracking-widest text-gray-400">Phone</label>
+                                        <input type="tel" name="phone" placeholder="07xx xxx xxx" class="w-full bg-white border-none rounded-xl p-4 font-bold text-gray-900 focus:ring-2 focus:ring-accent outline-none shadow-sm transition-all" required>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold uppercase tracking-widest text-gray-400">Email (Optional)</label>
+                                        <input type="email" name="email" placeholder="contact@restaurant.com" class="w-full bg-white border-none rounded-xl p-4 font-bold text-gray-900 focus:ring-2 focus:ring-accent outline-none shadow-sm transition-all">
+                                    </div>
+                                </div>
+
+                                <div class="space-y-3">
+                                    <label class="text-xs font-bold uppercase tracking-widest text-gray-400">Vibe / Experience (Max 3)</label>
+                                    <div class="flex flex-wrap gap-3">
+                                        <label class="cursor-pointer group flex items-center gap-2">
+                                            <div class="relative">
+                                                <input type="checkbox" class="hidden peer" name="vibe">
+                                                <div class="check">
+                                                    <svg viewBox="0 0 18 18">
+                                                        <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                        <polyline points="1 9 7 14 15 4"></polyline>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <span class="text-sm font-bold text-gray-500 group-hover:text-black transition-colors">Cozy</span>
+                                        </label>
+                                        <label class="cursor-pointer group flex items-center gap-2">
+                                            <div class="relative">
+                                                <input type="checkbox" class="hidden peer" name="vibe">
+                                                <div class="check">
+                                                    <svg viewBox="0 0 18 18">
+                                                        <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                        <polyline points="1 9 7 14 15 4"></polyline>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <span class="text-sm font-bold text-gray-500 group-hover:text-black transition-colors">Romantic</span>
+                                        </label>
+                                        <label class="cursor-pointer group flex items-center gap-2">
+                                            <div class="relative">
+                                                <input type="checkbox" class="hidden peer" name="vibe">
+                                                <div class="check">
+                                                    <svg viewBox="0 0 18 18">
+                                                        <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                        <polyline points="1 9 7 14 15 4"></polyline>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <span class="text-sm font-bold text-gray-500 group-hover:text-black transition-colors">Live Music</span>
+                                        </label>
+                                        <label class="cursor-pointer group flex items-center gap-2">
+                                            <div class="relative">
+                                                <input type="checkbox" class="hidden peer" name="vibe">
+                                                <div class="check">
+                                                    <svg viewBox="0 0 18 18">
+                                                        <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                        <polyline points="1 9 7 14 15 4"></polyline>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <span class="text-sm font-bold text-gray-500 group-hover:text-black transition-colors">Fine Dining</span>
+                                        </label>
+                                        <label class="cursor-pointer group flex items-center gap-2">
+                                            <div class="relative">
+                                                <input type="checkbox" class="hidden peer" name="vibe">
+                                                <div class="check">
+                                                    <svg viewBox="0 0 18 18">
+                                                        <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                        <polyline points="1 9 7 14 15 4"></polyline>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <span class="text-sm font-bold text-gray-500 group-hover:text-black transition-colors">Street Food</span>
+                                        </label>
+                                        <label class="cursor-pointer group flex items-center gap-2">
+                                            <div class="relative">
+                                                <input type="checkbox" class="hidden peer" name="vibe">
+                                                <div class="check">
+                                                    <svg viewBox="0 0 18 18">
+                                                        <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                        <polyline points="1 9 7 14 15 4"></polyline>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <span class="text-sm font-bold text-gray-500 group-hover:text-black transition-colors">Instagrammable</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <hr class="border-gray-200">
+
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                    <div class="space-y-3">
+                                        <label class="text-xs font-bold uppercase tracking-widest text-gray-400 block"><i class="fas fa-child mr-1"></i> Kid Friendly?</label>
+                                        <div class="flex flex-col gap-2">
+                                            <label class="flex items-center gap-2 cursor-pointer group">
+                                                <div class="relative"><input type="radio" name="kids" class="hidden peer"><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                                <span class="text-sm font-bold text-gray-700 group-hover:text-black">Yes</span>
+                                            </label>
+                                            <label class="flex items-center gap-2 cursor-pointer group">
+                                                <div class="relative"><input type="radio" name="kids" class="hidden peer"><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                                <span class="text-sm font-bold text-gray-700 group-hover:text-black">No</span>
+                                            </label>
+                                            <label class="flex items-center gap-2 cursor-pointer group">
+                                                <div class="relative"><input type="radio" name="kids" class="hidden peer" checked><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                                <span class="text-sm font-bold text-gray-400 group-hover:text-gray-600">Don't Know</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-3">
+                                        <label class="text-xs font-bold uppercase tracking-widest text-gray-400 block"><i class="fas fa-parking mr-1"></i> Parking?</label>
+                                        <div class="flex flex-col gap-2">
+                                            <label class="flex items-center gap-2 cursor-pointer group">
+                                                <div class="relative"><input type="radio" name="parking" class="hidden peer"><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                                <span class="text-sm font-bold text-gray-700 group-hover:text-black">Private Parking</span>
+                                            </label>
+                                            <label class="flex items-center gap-2 cursor-pointer group">
+                                                <div class="relative"><input type="radio" name="parking" class="hidden peer"><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                                <span class="text-sm font-bold text-gray-700 group-hover:text-black">Public Parking</span>
+                                            </label>
+                                            <label class="flex items-center gap-2 cursor-pointer group">
+                                                <div class="relative"><input type="radio" name="parking" class="hidden peer"><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                                <span class="text-sm font-bold text-gray-700 group-hover:text-black">No</span>
+                                            </label>
+                                            <label class="flex items-center gap-2 cursor-pointer group">
+                                                <div class="relative"><input type="radio" name="parking" class="hidden peer" checked><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                                <span class="text-sm font-bold text-gray-400 group-hover:text-gray-600">Don't Know</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-3">
+                                        <label class="text-xs font-bold uppercase tracking-widest text-gray-400 block"><i class="fas fa-wallet mr-1"></i> Price Range</label>
+                                        <div class="flex flex-col gap-2">
+                                            <label class="flex items-center gap-2 cursor-pointer group">
+                                                <div class="relative"><input type="radio" name="price" class="hidden peer"><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                                <span class="text-sm font-bold text-gray-700 group-hover:text-black">$ (Cheap)</span>
+                                            </label>
+                                            <label class="flex items-center gap-2 cursor-pointer group">
+                                                <div class="relative"><input type="radio" name="price" class="hidden peer"><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                                <span class="text-sm font-bold text-gray-700 group-hover:text-black">$$ (Medium)</span>
+                                            </label>
+                                            <label class="flex items-center gap-2 cursor-pointer group">
+                                                <div class="relative"><input type="radio" name="price" class="hidden peer"><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                                <span class="text-sm font-bold text-gray-700 group-hover:text-black">$$$ (Expensive)</span>
+                                            </label>
+                                            <label class="flex items-center gap-2 cursor-pointer group">
+                                                <div class="relative"><input type="radio" name="price" class="hidden peer" checked><div class="check"><svg viewBox="0 0 18 18"><path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></div></div>
+                                                <span class="text-sm font-bold text-gray-400 group-hover:text-gray-600">Don't Know</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label class="text-xs font-bold uppercase tracking-widest text-gray-400">Location (Galați, Romania)</label>
+                                    <div class="w-full h-48 rounded-2xl overflow-hidden relative border border-gray-200">
+                                        <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=Galati,Romania&t=&z=13&ie=UTF8&iwloc=&output=embed" style="filter: grayscale(100%) opacity(0.8);"></iframe>
+                                        <div class="absolute inset-0 bg-accent/5 pointer-events-none"></div>
+                                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg animate-bounce">
+                                                <i class="fas fa-map-marker-alt text-2xl text-accent"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] text-gray-400 italic text-center">Pin is visually centered on Galați.</p>
+                                </div>
+
+                                <div class="pt-4">
+                                    <button type="submit" id="submit-suggestion" class="w-full bg-black text-white font-bold uppercase text-sm py-5 rounded-xl hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg transform hover:-translate-y-1">
+                                        Submit Recommendation
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <footer id="main-footer">
+        <div class="footer-mask"></div>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div>
+                    <h2 class="footer-brand">Foodly<span class="text-accent">.</span></h2>
+                    <p class="footer-desc">Curating the finest culinary experiences in Galați. Bringing the city's flavors to your screen.</p>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Explore</h4>
+                    <ul class="footer-list">
+                        <li><a href="#" class="footer-link">Restaurants</a></li>
+                        <li><a href="#" class="footer-link">About Us</a></li>
+                        <li><a href="#" class="footer-link">Careers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Contact</h4>
+                    <ul class="footer-list">
+                        <li>Strada Domnească 45, Galați</li>
+                        <li>hello@foodly.ro</li>
+                        <li>+40 720 000 000</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Foodly Galați. All rights reserved.</p>
+                <div class="designed-with">
+                    <span>Made by andz.ro</span> <i class="fas fa-heart text-accent"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="full-page-modal" class="fixed inset-0 z-[9999] bg-off-white translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.87,0,0.13,1)] flex flex-col">
+        
+        <div id="menu-float-img" class="fixed w-48 h-48 rounded-2xl overflow-hidden pointer-events-none opacity-0 z-[10000] shadow-2xl transition-opacity duration-300 hidden md:block border-2 border-white/50">
+            <img src="" class="w-full h-full object-cover transform scale-110">
+        </div>
+
+        <div class="absolute top-0 left-0 w-full z-50 px-6 py-6 flex justify-between items-center pointer-events-none">
+            <button id="close-modal-btn" class="pointer-events-auto w-12 h-12 rounded-full bg-white/90 backdrop-blur-md shadow-lg flex items-center justify-center text-black hover:scale-110 transition-transform">
+                <i class="fas fa-arrow-left text-lg"></i>
+            </button>
+            <div class="pointer-events-auto flex gap-3">
+                 <button onclick="triggerBooking()" class="px-6 py-3 bg-white/90 backdrop-blur-md text-black font-bold uppercase text-xs rounded-full shadow-lg hover:bg-black hover:text-white transition-colors">
+                    Book Table
+                 </button>
+            </div>
+        </div>
+
+        <div id="modal-scroll-container" class="flex-1 overflow-y-auto bg-white w-full h-full relative">
+            <div id="modal-content-wrapper">
+                
+                <div class="relative w-full h-[60vh] md:h-[70vh] overflow-hidden">
+                    <img id="fp-cover" src="" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80"></div>
+                    
+                    <div class="absolute bottom-0 left-0 w-full p-6 md:p-12 text-white">
+                        <div class="max-w-7xl mx-auto">
+                            <div class="flex gap-2 mb-4 opacity-0 animate-slide-up" style="animation-delay: 0.1s;">
+                                <span id="fp-cuisine" class="px-3 py-1 bg-white/20 backdrop-blur rounded-full text-[10px] font-bold uppercase tracking-widest border border-white/20">Cuisine</span>
+                                <span class="px-3 py-1 bg-green-500/80 backdrop-blur rounded-full text-[10px] font-bold uppercase tracking-widest border border-green-400/20 flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></div> Open</span>
+                            </div>
+                            <h1 id="fp-title" class="text-5xl md:text-8xl font-serif font-bold leading-none mb-4 opacity-0 animate-slide-up" style="animation-delay: 0.2s;">Restaurant Name</h1>
+                            <div class="flex items-center gap-6 text-sm font-medium opacity-0 animate-slide-up" style="animation-delay: 0.3s;">
+                                <span class="flex items-center gap-2"><i class="fas fa-star text-yellow-400"></i> <span id="fp-rating">4.9</span></span>
+                                <span class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-gray-300"></i> <span id="fp-dist">-- km</span></span>
+                                <span class="flex items-center gap-2"><i class="fas fa-wallet text-gray-300"></i> <span id="fp-price">$$$</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative z-10 bg-white -mt-6 rounded-t-[2.5rem] px-6 md:px-12 py-12 min-h-screen">
+                    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+                        
+                        <div class="lg:col-span-3 order-2 lg:order-1">
+                            <div class="sticky top-12 space-y-8">
+                                <div class="space-y-6">
+                                    <div>
+                                        <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-1">Address</p>
+                                        <p id="fp-address" class="text-sm font-bold text-gray-800">Strada Domnească 13</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-1">Schedule</p>
+                                        <p id="fp-schedule" class="text-sm font-bold text-gray-800">10:00 - 23:00</p>
+                                    </div>
+                                    <div class="w-full">
+                                        <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-3">Live Busy Hours</p>
+                                        <div class="flex items-end h-16 gap-1 w-full" id="fp-peak-graph">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr class="border-gray-100">
+
+                                <div>
+                                    <h4 class="font-bold text-gray-900 mb-4 flex items-center gap-2"><i class="fas fa-concierge-bell text-accent"></i> Facilities</h4>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div class="text-center p-3 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-colors">
+                                            <i id="fp-icon-parking" class="fas fa-parking text-xl mb-1 block"></i>
+                                            <span class="text-[9px] font-bold uppercase text-gray-400">Parking</span>
+                                        </div>
+                                        <div class="text-center p-3 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-colors">
+                                            <i class="fas fa-wheelchair text-xl text-gray-400 mb-1 block"></i>
+                                            <span class="text-[9px] font-bold uppercase text-gray-400">Access</span>
+                                        </div>
+                                        <div class="text-center p-3 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-colors">
+                                            <i class="fas fa-child text-xl text-gray-400 mb-1 block"></i>
+                                            <span class="text-[9px] font-bold uppercase text-gray-400">Kids</span>
+                                        </div>
+                                        <div class="text-center p-3 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-colors">
+                                            <i class="fas fa-wifi text-xl text-gray-400 mb-1 block"></i>
+                                            <span class="text-[9px] font-bold uppercase text-gray-400">Wifi</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex flex-col gap-2">
+                                    <a id="fp-glovo" href="#" target="_blank" class="w-full py-3 bg-[#FFC107] rounded-xl text-black text-xs font-bold uppercase text-center flex items-center justify-center gap-2 hover:brightness-105">
+                                        <i class="fas fa-motorcycle"></i> Order Glovo
+                                    </a>
+                                    <a id="fp-call" href="#" class="w-full py-3 border border-gray-200 rounded-xl text-black text-xs font-bold uppercase text-center flex items-center justify-center gap-2 hover:bg-gray-50">
+                                        <i class="fas fa-phone"></i> Call Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-6 order-1 lg:order-2 space-y-16">
+                            <section>
+                                <h2 class="font-serif text-3xl font-bold mb-6 text-gray-900">The Experience</h2>
+                                <p id="fp-desc" class="text-gray-600 leading-loose text-lg font-light">Description...</p>
+                                <div id="fp-tags" class="flex flex-wrap gap-2 mt-6">
+                                </div>
+                            </section>
+
+                            <section>
+                                <div class="flex items-end justify-between mb-8 border-b border-gray-100 pb-4">
+                                    <h2 class="font-serif text-3xl font-bold text-gray-900">Menu Selects</h2>
+                                    <span class="text-[10px] font-bold uppercase text-gray-400 tracking-widest">Hover to Preview</span>
+                                </div>
+                                
+                                <div class="bg-dark text-white p-8 rounded-3xl relative overflow-hidden mb-8 group cursor-default">
+                                    <div class="absolute top-0 right-0 w-32 h-32 bg-accent rounded-full blur-[60px] opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                                    <div class="relative z-10">
+                                        <div class="flex items-center gap-3 mb-2">
+                                            <i class="fas fa-crown text-accent"></i>
+                                            <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400">Chef's Choice</span>
+                                        </div>
+                                        <h3 id="fp-chef-choice" class="text-2xl font-serif italic mb-1">Dish Name</h3>
+                                    </div>
+                                </div>
+
+                                <div id="fp-menu-list" class="space-y-8">
+                                </div>
+                            </section>
+
+                            <section>
+                                 <h2 class="font-serif text-3xl font-bold mb-8 text-gray-900">Guest Ratings</h2>
+                                 <div class="bg-off-white p-8 rounded-3xl">
+                                    <div class="flex items-center gap-4 mb-6">
+                                        <span id="fp-score-total" class="text-5xl font-black text-gray-900">4.9</span>
+                                        <div>
+                                            <div class="text-yellow-400 text-sm mb-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                            <p class="text-xs font-bold text-gray-400 uppercase">Based on recent visits</p>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-3">
+                                        <div>
+                                            <div class="flex justify-between text-xs font-bold mb-1"><span>Food</span><span id="fp-score-food">4.9</span></div>
+                                            <div class="h-1.5 bg-gray-200 rounded-full overflow-hidden"><div id="bar-food" class="h-full bg-accent"></div></div>
+                                        </div>
+                                        <div>
+                                            <div class="flex justify-between text-xs font-bold mb-1"><span>Staff</span><span id="fp-score-staff">4.8</span></div>
+                                            <div class="h-1.5 bg-gray-200 rounded-full overflow-hidden"><div id="bar-staff" class="h-full bg-gray-800"></div></div>
+                                        </div>
+                                        <div>
+                                            <div class="flex justify-between text-xs font-bold mb-1"><span>Atmosphere</span><span id="fp-score-atm">5.0</span></div>
+                                            <div class="h-1.5 bg-gray-200 rounded-full overflow-hidden"><div id="bar-atm" class="h-full bg-blue-500"></div></div>
+                                        </div>
+                                        <div>
+                                            <div class="flex justify-between text-xs font-bold mb-1"><span>Price</span><span id="fp-score-price">4.5</span></div>
+                                            <div class="h-1.5 bg-gray-200 rounded-full overflow-hidden"><div id="bar-price" class="h-full bg-green-500"></div></div>
+                                        </div>
+                                    </div>
+                                 </div>
+                            </section>
+                            
+                             <section>
+                                 <h2 class="font-serif text-3xl font-bold mb-6 text-gray-900">Events</h2>
+                                 <div id="fp-events-list" class="grid gap-4">
+                                 </div>
+                            </section>
+                        </div>
+
+                        <div class="lg:col-span-3 order-3">
+                            <div class="sticky top-12 space-y-6">
+                                
+                                <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-xl shadow-gray-100/50">
+                                    <h4 class="font-bold text-gray-900 mb-4 flex items-center gap-2"><i class="fas fa-calculator text-accent"></i> Estimator</h4>
+                                    
+                                    <div class="mb-6">
+                                        <div class="flex justify-between text-xs font-bold text-gray-400 mb-2">
+                                            <span>PERSONS</span>
+                                            <span id="fp-calc-ppl" class="text-black text-lg">2</span>
+                                        </div>
+                                        <input type="range" id="fp-calc-slider" min="1" max="10" value="2" class="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-accent">
+                                    </div>
+
+                                    <div class="flex gap-1 mb-6 bg-gray-100 p-1 rounded-xl">
+                                        <button class="fp-hunger-btn flex-1 py-2 rounded-lg text-[10px] font-bold uppercase transition-colors text-gray-500 hover:bg-white" data-mult="0.6">Snack</button>
+                                        <button class="fp-hunger-btn active flex-1 py-2 rounded-lg bg-white text-black shadow-sm text-[10px] font-bold uppercase" data-mult="1.0">Meal</button>
+                                        <button class="fp-hunger-btn flex-1 py-2 rounded-lg text-[10px] font-bold uppercase transition-colors text-gray-500 hover:bg-white" data-mult="1.6">Feast</button>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <p class="text-[10px] font-bold uppercase text-gray-400">Estimated Total</p>
+                                        <p id="fp-calc-total" class="text-2xl font-black text-gray-900">180 RON</p>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-3xl overflow-hidden h-48 relative border border-gray-200">
+                                    <iframe id="fp-map" width="100%" height="100%" style="border:0; filter: grayscale(100%);" allowfullscreen="" loading="lazy"></iframe>
+                                    <div class="absolute inset-0 pointer-events-none shadow-inner"></div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="h-24"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
