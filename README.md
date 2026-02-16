@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://andzstudio.github.io/resources/projects/foodly-logo.png" alt="Foodly Logo" width="100%" />
+  <img src="img/foodly-logo.png" alt="Foodly Logo" width="100%" />
   
   <br />
 
